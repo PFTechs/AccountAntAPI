@@ -1,0 +1,6 @@
+@AccountAntAPI_HostAddress = http://localhost:5196
+
+GET {{AccountAntAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
