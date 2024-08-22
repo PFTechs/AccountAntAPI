@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.ComponentModel.DataAnnotations.Schema;
 using AccountAntAPI.Models;
+using System.Text.Json.Serialization;
 
 namespace AccountAntAPI.Models
 {
@@ -12,10 +13,12 @@ namespace AccountAntAPI.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
+        [Precision(7,2)]
         public decimal Amount { get; set; }
         public string Origin { get; set; }
         public string Comment { get; set; }
-        public Guid ContainingCollectionId { get; set; }
+        public int CollectionId { get; set; }
+        [JsonIgnore]
         public Collection Collection { get; set; }
 
 
