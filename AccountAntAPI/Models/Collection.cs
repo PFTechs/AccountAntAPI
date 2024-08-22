@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace AccountAntAPI.Models
 {
@@ -8,7 +9,8 @@ namespace AccountAntAPI.Models
     [PrimaryKey("Id")]
     public class Collection
     {
-        public Guid Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         public string Name { get; set; }
         public ICollection<Item> Items { get; set; }
     }

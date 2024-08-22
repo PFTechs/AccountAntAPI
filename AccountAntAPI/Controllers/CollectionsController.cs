@@ -25,12 +25,27 @@ namespace AccountAntAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Collection>>> GetCollections()
         {
-            return await _context.Collections.ToListAsync();
+            return await this.FetchItems();
+            //var items = await _context.Items.ToListAsync();
+
+
+            //foreach (var collection in collections)
+            //{
+            //    foreach (var item in items)
+            //    {
+            //        if (item.Id == collection.Id)
+            //        {
+            //            collection.Items.Add(item);
+            //        }
+            //    }
+            //}
+
+            //return collections;
         }
 
         // GET: api/Collections/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Collection>> GetCollection(Guid id)
+        public async Task<ActionResult<Collection>> GetCollection(int id)
         {
             var collection = await _context.Collections.FindAsync(id);
 
@@ -45,7 +60,7 @@ namespace AccountAntAPI.Controllers
         // PUT: api/Collections/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCollection(Guid id, Collection collection)
+        public async Task<IActionResult> PutCollection(int id, Collection collection)
         {
             if (id != collection.Id)
             {
@@ -78,15 +93,30 @@ namespace AccountAntAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Collection>> PostCollection(Collection collection)
         {
-            _context.Collections.Add(collection);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Collections.Add(collection);
 
-            return CreatedAtAction("GetCollection", new { id = collection.Id }, collection);
+                //ICollection<Item> items = [];
+
+                //foreach (Item item in collection.Items)
+                //{
+                //    _context.Items.Add(item);
+                //}
+
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetCollection", new { id = collection.Id }, collection);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // DELETE: api/Collections/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCollection(Guid id)
+        public async Task<IActionResult> DeleteCollection(int id)
         {
             var collection = await _context.Collections.FindAsync(id);
             if (collection == null)
@@ -100,9 +130,30 @@ namespace AccountAntAPI.Controllers
             return NoContent();
         }
 
-        private bool CollectionExists(Guid id)
+        private bool CollectionExists(int id)
         {
             return _context.Collections.Any(e => e.Id == id);
+        }
+    
+        private async Task<ActionResult<IEnumerable<Collection>>> FetchItems()
+        {
+            var collections = await _context.Collections.ToListAsync();
+            var items = await _context.Items.ToListAsync();
+
+
+            foreach (var collection in collections)
+            {
+                foreach (var item in items)
+                {
+                    if (item.Id == collection.Id)
+                    {
+                        collection.Items.Add(item);
+                    }
+                }
+            }
+
+            return collections;
+
         }
     }
 }

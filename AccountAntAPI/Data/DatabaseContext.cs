@@ -16,13 +16,13 @@ namespace AccountAntAPI.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Item>()
-            .Property(i => i.ContainingCollectionId)
+            .Property(i => i.CollectionId)
             .IsRequired();
 
             modelBuilder.Entity<Collection>()
                 .HasMany(c => c.Items)
                 .WithOne(i => i.Collection)
-                .HasForeignKey(i => i.ContainingCollectionId);
+                .HasForeignKey(i => i.CollectionId);
         }
 
     }
