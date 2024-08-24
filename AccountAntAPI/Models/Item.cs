@@ -16,6 +16,7 @@ namespace AccountAntAPI.Models
         [Precision(7,2)]
         public decimal Amount { get; set; }
         public string Origin { get; set; }
+        public bool Paid { get; set; }
         public string Comment { get; set; }
         public int CollectionId { get; set; }
         [JsonIgnore]
