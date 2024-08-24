@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AccountAntAPI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240821205829_Initial")]
-    partial class Initial
+    [Migration("20240823224848_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,6 +63,9 @@ namespace AccountAntAPI.Migrations
 
                     b.Property<string>("Origin")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Paid")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

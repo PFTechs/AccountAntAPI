@@ -61,6 +61,9 @@ namespace AccountAntAPI.Migrations
                     b.Property<string>("Origin")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Paid")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CollectionId");
