@@ -1,14 +1,18 @@
 using AccountAntAPI.Data;
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<DatabaseContext>(opt =>
-    opt.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=AccountAntDb;Trusted_Connection=True;"));
+builder.Services.AddDbContext<DatabaseContext>(options =>
+    options.UseSqlite("Data Source=AccountAnt.sqlite"));
+
+//builder.Services.AddDbContext<DatabaseContext>(opt =>
+//    opt.UseSqlite("Server=(localdb)\\MSSQLLocalDB;Database=AccountAntDb;Trusted_Connection=True;"));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
