@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DatabaseContext>(options =>
-    options.UseSqlite("Data Source=AccountAnt.sqlite"));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 //builder.Services.AddDbContext<DatabaseContext>(opt =>
 //    opt.UseSqlite("Server=(localdb)\\MSSQLLocalDB;Database=AccountAntDb;Trusted_Connection=True;"));
@@ -41,15 +41,20 @@ builder.Services.AddCors(options =>
 //    options.FallbackPolicy = options.DefaultPolicy;
 //});
 
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(80); // Listen on port 80
+});
+
 var app = builder.Build();
 app.UseCors("AllowAngularOrigins");
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 app.UseHttpsRedirection();
 
